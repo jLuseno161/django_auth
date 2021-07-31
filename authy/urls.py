@@ -23,10 +23,6 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('signup/', views.signup, name='signup'),
-    # url('login/',auth_views.LoginView.as_view(), name='login'),
-    # url('profile/', views.profile, name='profile'),
-    # path('landingpage/',views.landingpage,name = 'landingpage'),
     url('employee_register/',views.employee_register.as_view(),name = 'employee_register'),
     url('employer_register/',views.employer_register.as_view(),name = 'employer_register'),
     url('login/',views.login_request,name = 'login'),

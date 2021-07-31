@@ -13,32 +13,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 
 # Create your views here.
-@login_required(login_url="/accounts/login/")
 def index(request):
-    tml = "<h2>HI EMPLOYER ITS GLAD TO SEE YOU</h2>"
+    tml = "<h2>welome all</h2>"
     return HttpResponse(tml)
-
-@login_required(login_url="/accounts/login/")
-def employee(request):
-    tml = "<h2>HI EMPLOYER ITS GLAD TO SEE YOU</h2>"
-    return HttpResponse(tml)
-
-
-    return HttpResponse(request,'hI THERE')
-def signup(request):
-    # if request.method == 'POST':
-    #     form = SignUpForm(request.POST)
-    #     if form.is_valid():
-    #         user = form.save()
-    #         user.save()
-    #         raw_password = form.cleaned_data.get('password1')
-    #         user = authenticate(username=user.username, password=raw_password)
-
-    #         login(request, user)
-    #         return redirect('login')
-    # else:
-    #     form = SignUpForm()
-    return render(request, 'registration/registration_form.html')
 
 class employer_register(CreateView):
     model = User
@@ -72,7 +49,12 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("index")
+                if request.user.is_authenticated and request.user.is_employer:
+                    tml = "<h2>HI EMPLOYER</h2>"
+                    return HttpResponse(tml)
+                else:
+                    jobs="<h2>HI EMPLOYEE</h2>"
+                    return HttpResponse(jobs)
             else:
                 messages.error(request, "Invalid username or password")
         else:
@@ -83,3 +65,5 @@ def login_request(request):
 def logout_request(request):
     logout(request)
     return redirect("login")
+
+
